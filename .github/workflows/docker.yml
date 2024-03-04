@@ -8,7 +8,7 @@ on:
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -19,8 +19,14 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Build Docker image
+      - name: Build Docker Frontend image
         run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/quirknotes_frontend:latest -f Dockerfile_frontend .
 
-      - name: Push Docker image to Docker Hub
+      - name: Push Docker Frontend image to Docker Hub
         run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/quirknotes_frontend:latest
+
+      - name: Build Docker Backend image
+        run: docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/quirknotes_backend:latest -f Dockerfile_backend .
+
+      - name: Push Docker Backend image to Docker Hub
+        run: docker push ${{ secrets.DOCKERHUB_USERNAME }}/quirknotes_backend:latest
